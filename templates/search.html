@@ -23,14 +23,14 @@
             </tr>
           </thead>
           <tbody>
-            {% for job in jobs %} {% if keyword.lower() in job.title.lower() %}
+            {% for job in jobs %}
             <tr>
               <td>{{job.title}}</td>
               <td>{{job.company_name}}</td>
               <td>{{job.description}}</td>
               <td><a href="{{job.link}}" target="_blank">Go to job</a></td>
             </tr>
-            {% endif %} {% endfor %}
+            {% endfor %}
           </tbody>
         </table>
       </figure>
