@@ -1,7 +1,8 @@
 # BLUEPRINT | DONT EDIT
 
-from flask import Flask, render_template, request, redirect
+from flask import Flask, render_template, request, redirect, send_file
 import json
+from file import save_to_file
 
 app = Flask("JobScraper")
 
@@ -38,10 +39,12 @@ def search():
                 title = job["title"]
                 company = job["company_name"]
                 desc = job["description"]
+                link = job["link"]
                 jobs = {
                     "title": title,
                     "company": company,
                     "description": desc,
+                    "link": link
                 }
                 results.append(jobs)
 
@@ -55,9 +58,10 @@ def export():
     keyword = request.args.get("keyword")
     if keyword == None:
         return redirect("/")
-    if keyword is not db:
+    if keyword not in db:
         return redirect(f"/search?keyword={keyword}")
-
+    save_to_file(keyword, db[keyword])
+    return send_file(f"{keyword}.csv", as_attachment=True)
 
 # BLUEPRINT | DONT EDIT
 
